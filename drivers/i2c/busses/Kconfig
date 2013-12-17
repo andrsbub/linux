@@ -77,6 +77,15 @@ config I2C_AMD8111
 	  This driver can also be built as a module.  If so, the module
 	  will be called i2c-amd8111.
 
+config I2C_AXXIA
+	tristate "Axxia I2C controller"
+	depends on ARCH_AXXIA
+	help
+	  Say yes if you want to support the I2C bus on Axxia platforms.
+
+	  If you don't know, say Y.
+
+
 config I2C_I801
 	tristate "Intel 82801 (ICH/PCH)"
 	depends on PCI
