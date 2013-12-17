@@ -7,15 +7,15 @@
  * On ARM we already have well known fixed virtual addresses imposed by
  * the architecture such as the vector page which is located at 0xffff0000,
  * therefore a second level page table is already allocated covering
- * 0xfff00000 upwards.
+ * 0xffe00000 upwards.
  *
  * The cache flushing code in proc-xscale.S uses the virtual area between
  * 0xfffe0000 and 0xfffeffff.
  */
 
-#define FIXADDR_START		0xfff00000UL
+#define FIXADDR_SIZE		((KM_TYPE_NR * NR_CPUS) << PAGE_SHIFT)
 #define FIXADDR_TOP		0xfffe0000UL
-#define FIXADDR_SIZE		(FIXADDR_TOP - FIXADDR_START)
+#define FIXADDR_START		(FIXADDR_TOP - FIXADDR_SIZE)
 
 #define FIX_KMAP_BEGIN		0
 #define FIX_KMAP_END		(FIXADDR_SIZE >> PAGE_SHIFT)
