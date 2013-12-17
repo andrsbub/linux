@@ -130,6 +130,17 @@ config USB_EHCI_MXC
 	---help---
 	  Variation of ARC USB block used in some Freescale chips.
 
+config USB_EHCI_HCD_AXXIA
+	tristate "LSI Axxia USB support"
+	depends on USB && OF
+	select USB_EHCI_ROOT_HUB_TT
+	---help---
+	The USB controller on LSI Axxia family of devices. Enable this option
+	if your board is using this chip. If unsure, say N.
+
+	This driver does not support isochronous transfers and doesn't
+	implement OTG nor USB device controllers.
+
 config USB_EHCI_HCD_OMAP
 	tristate "EHCI support for OMAP3 and later chips"
 	depends on ARCH_OMAP

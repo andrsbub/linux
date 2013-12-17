@@ -1300,6 +1300,11 @@ MODULE_LICENSE ("GPL");
 #define	PLATFORM_DRIVER		ehci_hcd_sead3_driver
 #endif
 
+#ifdef CONFIG_USB_EHCI_HCD_AXXIA
+#include "ehci-axxia.c"
+#define PLATFORM_DRIVER        ehci_axxia_driver
+#endif
+
 static int __init ehci_hcd_init(void)
 {
 	int retval = 0;
