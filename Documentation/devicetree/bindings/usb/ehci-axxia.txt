@@ -1,0 +1,20 @@
+Axxia USB EHCI controller
+
+Required properties:
+
+- compatible: should be "lsi,axxia-ehci" or "lsi,acp-usb" (legacy)
+- reg: should contain one register range i.e. start and length
+- interrupts: definition of the interrupt line
+
+Optional properties:
+
+- dma-coherent: Present if dma operations are coherent
+
+Example for AXM5516:
+
+usb@2010140000 {
+	compatible = "lsi,axxia-ehci";
+	reg = <0x20 0x10140000 0 0x1000>;
+	interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
+	dma-coherent;
+};
