@@ -1,0 +1,24 @@
+config NET_VENDOR_LSI
+	bool "LSI AXM55xx Ethernet support"
+	select MII
+	select PHYLIB
+	default y if ARCH_AXXIA
+        ---help---
+	  If you have a network interface driver for LSI AXXIA series, say Y
+
+	  Note that the answer to this question doesn't directly affect the
+	  kernel: saying N will just cause the configurator to skip all
+	  the questions about LSI devices. If you say Y, you will be
+	  asked for your specific card in the following questions.
+
+if NET_VENDOR_LSI
+
+config NET_LSI_MDIO
+        bool "LSI AXM55xx MDIO bus driver"
+        default y
+        ---help---
+          The MDIO controller in AXM55xx devices.
+
+          If your board uses an external PHY connected to FEMAC, say Y.
+
+endif # NET_VENDOR_LSI
