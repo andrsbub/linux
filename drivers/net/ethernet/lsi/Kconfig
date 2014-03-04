@@ -21,4 +21,12 @@ config NET_LSI_MDIO
 
           If your board uses an external PHY connected to FEMAC, say Y.
 
+config NET_LSI_FEMAC
+        tristate "LSI FEMAC Ethernet controller"
+        select LSI_MDIO
+        default y
+        ---help---
+          Say Y here if you want to use the built-in 10/100 Fast ethernet
+          controller (FEMAC) on the AXM55xx devices.
+
 endif # NET_VENDOR_LSI
