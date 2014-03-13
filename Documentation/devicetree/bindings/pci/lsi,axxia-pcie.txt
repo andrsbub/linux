@@ -1,0 +1,39 @@
+* LSI Axxia PCIe controller
+
+Required properties:
+
+- compatible: should contain "lsi,axxia-pcie"
+- reg: base addresses and lengths of the pcie controller registers
+	and the register window to access configuration space.
+- interrupts: first entry for legacy interrupt and the optional following
+	entries for MSI lines.
+- #address-cells: set to <3>
+- #size-cells: set to <2>
+- device_type: set to "pci"
+- ranges: ranges for the outbound PCI memory region on the form:
+	<3-cell PCI addr> <2-cell CPU addr> <2-cell size>
+- dma-ranges: ranges for the inbound memory window on the form:
+	<3-cell PCI addr> <2-cell CPU addr> <2-cell size>
+- #interrupt-cells: set to <1>
+
+Example:
+	pcie0: pciex@3000000000 {
+		compatible = "lsi,axxia-pcie";
+		device_type = "pci";
+		#interrupt-cells = <1>;
+		#address-cells = <3>;
+		#size-cells = <2>;
+		reg = <0x30 0x38000000 0x0 0x01000000>,
+		      <0x20 0x20120000 0x0 0x00008000>;
+		/* Outbound ranges */
+		ranges = <0x03000000 0x00000000 0x80000000
+			  0x30 0x00000000
+			  0x00 0x20000000>;
+		/* Inbound ranges */
+		/* < <3-cell PCI addr> <2-cell CPU addr> <2-cell size> > */
+		dma-ranges = <0x03000000 0x00000000 0x00000000
+			      0x00 0x00000000
+			      0x00 0x40000000>;
+		interrupts = <0 68 4>;
+	};
+
