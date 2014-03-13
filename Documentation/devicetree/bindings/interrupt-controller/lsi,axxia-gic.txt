@@ -1,0 +1,28 @@
+* Axxia Interrupt Controller
+
+Based on the binding for ARM GIC with virtualization extensions (VGIC), see:
+
+	Documentation/devicetree/bindings/arm/gic.txt
+
+with a few differences to the required properties:
+
+- compatible : should be "lsi,axxia-gic"
+
+- reg :  should contain two additional cells: The 5th and 6th cell should hold
+  the physical address to the IPI mask and the IPI send registers respectively.
+
+Example:
+
+	gic: interrupt-controller@2001001000 {
+		compatible = "lsi,axxia-gic", "arm,cortex-a15-gic";
+		#interrupt-cells = <3>;
+		#address-cells = <0>;
+		interrupt-controller;
+		reg = <0x20 0x01001000 0 0x1000>,  /* gic dist base */
+		      <0x20 0x01002000 0 0x1000>,  /* gic cpu base */
+		      <0x20 0x01004000 0 0x2000>,  /* vgic control */
+		      <0x20 0x01006000 0 0x2000>,  /* vgic cpu base */
+		      <0x20 0x10030000 0 0x1000>,  /* axm IPI mask reg base */
+		      <0x20 0x10040000 0 0x20000>; /* axm IPI send reg base */
+		interrupts = <1 9 0xf04>;
+	};
