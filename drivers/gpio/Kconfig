@@ -108,6 +108,14 @@ config GPIO_MAX730X
 
 comment "Memory mapped GPIO drivers:"
 
+config GPIO_AXXIA_SSP
+	bool "AXM55xx SSP chip select pins as GPIO"
+	default y if (ARCH_AXXIA && SPI_MASTER)
+	depends on ARCH_AXXIA
+	select GPIO_GENERIC
+	help
+	  Say yes here to get GPIO interface for AXM55xx SSP chip select signals.
+
 config GPIO_CLPS711X
 	tristate "CLPS711X GPIO support"
 	depends on ARCH_CLPS711X || COMPILE_TEST

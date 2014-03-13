@@ -1,0 +1,36 @@
+* Axxia SSP GPIO chip-select driver
+
+The Axxia device has a ARM PL022 Prime Cell SSP controller with an extension of
+five chip select signals that may be controlled by software. This driver
+exports them as GPIOs.
+
+Required properties:
+
+  * compatible: should be "lsi,ssp-gpio"
+  * reg: base address for the controller.
+  * gpio-controller: mark the device as gpio controller
+  * #gpio-cells: should be 1 and this field specifies the chip select number
+
+Example:
+-------
+
+	spics: sspgpio@2010088030 {
+		compatible = "lsi,ssp-gpio";
+		#gpio-cells = <1>;
+		reg = <0x20 0x10088000 0x00 0x1000>;
+		gpio-controller;
+	};
+
+	spi0: ssp@2010088000 {
+		compatible = "arm,pl022", "arm,primecell";
+		#address-cells = <1>;
+		#size-cells = <0>;
+		reg = <0x20 0x10088000 0x00 0x1000>;
+		num-cs = <5>;
+		cs-gpios = <&spics 0>,
+			   <&spics 1>,
+			   <&spics 2>,
+			   <&spics 3>,
+			   <&spics 4>;
+		...
+      };
