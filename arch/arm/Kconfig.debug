@@ -1060,9 +1060,15 @@ config DEBUG_UART_PHYS
 	default 0xffd82340 if ARCH_IOP13XX
 	default 0xfff36000 if DEBUG_HIGHBANK_UART
 	default 0xfffff700 if ARCH_IOP33X
+	default 0x10080000 if ARCH_AXXIA
 	depends on DEBUG_LL_UART_8250 || DEBUG_LL_UART_PL01X || \
 		DEBUG_LL_UART_EFM32 || \
 		DEBUG_UART_8250 || DEBUG_UART_PL01X
+
+config DEBUG_UART_PHYS_UPPER
+	hex "Physical base address bits [39:32] of debug UART"
+	depends on ARM_LPAE
+	default 0x20 if ARCH_AXXIA
 
 config DEBUG_UART_VIRT
 	hex "Virtual base address of debug UART"
@@ -1117,6 +1123,7 @@ config DEBUG_UART_VIRT
 	default 0xfef00000 if ARCH_IXP4XX && !CPU_BIG_ENDIAN
 	default 0xfef00003 if ARCH_IXP4XX && CPU_BIG_ENDIAN
 	default 0xfefff700 if ARCH_IOP33X
+	default 0xf0080000 if ARCH_AXXIA
 	default 0xff003000 if DEBUG_U300_UART
 	default DEBUG_UART_PHYS if !MMU
 	depends on DEBUG_LL_UART_8250 || DEBUG_LL_UART_PL01X || \

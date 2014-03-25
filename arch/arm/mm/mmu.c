@@ -1018,6 +1018,9 @@ void __init debug_ll_io_init(void)
 	if (!map.pfn || !map.virtual)
 		return;
 	map.pfn = __phys_to_pfn(map.pfn);
+#ifdef CONFIG_DEBUG_UART_PHYS_UPPER
+	map.pfn |= CONFIG_DEBUG_UART_PHYS_UPPER << (32 - PAGE_SHIFT);
+#endif
 	map.virtual &= PAGE_MASK;
 	map.length = PAGE_SIZE;
 	map.type = MT_DEVICE;

@@ -292,6 +292,10 @@ __create_page_tables:
 	orr	r3, r7, r3, lsl #SECTION_SHIFT
 #ifdef CONFIG_ARM_LPAE
 	mov	r7, #1 << (54 - 32)		@ XN
+#ifdef CONFIG_DEBUG_UART_PHYS_UPPER
+	/* Debug UART physical address upper bits [39:32] for LPAE */
+	orr     r7, r7, #CONFIG_DEBUG_UART_PHYS_UPPER
+#endif
 #ifdef CONFIG_CPU_ENDIAN_BE8
 	str	r7, [r0], #4
 	str	r3, [r0], #4
