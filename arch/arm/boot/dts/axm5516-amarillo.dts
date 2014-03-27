@@ -87,3 +87,18 @@
 		};
 	};
 };
+
+&femac {
+	status = "okay";
+	phy-handle = <&phy0>;
+};
+
+&mdio {
+	status = "okay";
+	lsi,mdio-clk-offset = <0x10>;
+	lsi,mdio-clk-period = <0x2c>;
+
+	phy0: ethernet-phy@1e {
+		reg = <0x1e>;
+	};
+};

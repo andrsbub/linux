@@ -18,6 +18,7 @@
 	interrupt-parent = <&gic>;
 
 	aliases {
+		ethernet0 = &femac;
 		serial0	  = &serial0;
 		serial1   = &serial1;
 		serial2	  = &serial2;
@@ -112,6 +113,21 @@
 			#gpio-cells = <2>;
 			gpio-controller;
 			reg = <0x20 0x10088030 0x00 0x4>;
+			status = "disabled";
+		};
+
+		femac: ethernet@2010120000 {
+			compatible = "lsi,femac";
+			reg = <0x20 0x10120000 0 0x3000>;
+			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+			status = "disabled";
+		};
+
+		mdio: mdio@2010090000 {
+			compatible = "lsi,axm-mdio";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x20 0x10090000 0 0x1000>;
 			status = "disabled";
 		};
 
