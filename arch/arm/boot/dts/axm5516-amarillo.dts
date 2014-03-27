@@ -49,3 +49,41 @@
 &gpio1 {
 	status = "okay";
 };
+
+&spics {
+	status = "okay";
+};
+
+&spi0 {
+	status = "okay";
+
+	flash@0 {
+		#address-cells = <1>;
+		#size-cells = <1>;
+		compatible = "s25fl129p1";
+		reg = <0x0>;
+		spi-max-frequency = <25000000>;
+		pl022,com-mode = <0>;
+
+		partition@0 {
+			label = "spl";
+			reg = <0x0 0x40000>;
+		};
+		partition@40000 {
+			label = "parameters";
+			reg = <0x40000 0x10000>;
+		};
+		partition@60000 {
+			label = "env1";
+			reg = <0x60000 0x10000>;
+		};
+		partition@70000 {
+			label = "env2";
+			reg = <0x70000 0x10000>;
+		};
+		partition@100000 {
+			label = "u-boot";
+			reg = <0x100000 0x200000>;
+		};
+	};
+};
