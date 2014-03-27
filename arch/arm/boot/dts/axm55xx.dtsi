@@ -132,6 +132,14 @@
 			status = "disabled";
 		};
 
+		usb0: usb@2010140000 {
+			compatible = "lsi,axxia-ehci";
+			reg = <0x20 0x10140000 0 0x1000>;
+			interrupts = <GIC_SPI 55 IRQ_TYPE_LEVEL_HIGH>;
+			dma-coherent;
+			status = "disabled";
+		};
+
 		amba {
 			compatible = "arm,amba-bus";
 			#address-cells = <2>;

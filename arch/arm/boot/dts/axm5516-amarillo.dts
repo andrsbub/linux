@@ -102,3 +102,7 @@
 		reg = <0x1e>;
 	};
 };
+
+&usb0 {
+	status = "okay";
+};
