@@ -23,6 +23,7 @@
 		serial2	  = &serial2;
 		serial3	  = &serial3;
 		timer	  = &timer0;
+		ethernet0 = &femac;
 	};
 
 	clocks {
@@ -111,6 +112,23 @@
 			#gpio-cells = <2>;
 			gpio-controller;
 			reg = <0x20 0x10088000 0x00 0x1000>;
+			status = "disabled";
+		};
+
+		femac: ethernet@2010120000 {
+			compatible = "lsi,femac";
+			reg = <0x20 0x10120000 0 0x1000>,
+			      <0x20 0x10121000 0 0x1000>,
+			      <0x20 0x10122000 0 0x1000>;
+			interrupts = <GIC_SPI 4 IRQ_TYPE_LEVEL_HIGH>;
+			status = "disabled";
+		};
+
+		mdio: mdio@2010090000 {
+			compatible = "lsi,axm-mdio";
+			#address-cells = <1>;
+			#size-cells = <0>;
+			reg = <0x20 0x10090000 0 0x1000>;
 			status = "disabled";
 		};
 
