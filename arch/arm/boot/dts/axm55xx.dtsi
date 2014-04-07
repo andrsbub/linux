@@ -188,6 +188,54 @@
 			status = "disabled";
 		};
 
+	        pcie0: pcie@3000000000 {
+	                compatible = "lsi,axm5516-pcie";
+	                device_type = "pci";
+	                #size-cells = <2>;
+	                #address-cells = <3>;
+	                #interrupt-cells = <1>;
+	                reg = <0x30 0x38000000 0x0 0x01000000>,
+			      <0x20 0x20120000 0x0 0x00008000>;
+	                /* <3-cell PCI addr> <2-cell CPU addr> <2-cell size> */
+	                ranges = <0x01000000 0 0x00000000 0x30 0x00000000 0 0x00010000>, /* IO */
+				 <0x02000000 0 0x08000000 0x30 0x08000000 0 0x30000000>; /* MEM */
+			bus-range = <0x00 0xff>;
+	                interrupts = <GIC_SPI 68 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 73 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 74 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 75 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 76 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 77 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 78 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 79 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 80 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 81 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 82 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 83 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 84 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 85 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 86 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 87 IRQ_TYPE_LEVEL_HIGH>,
+	                             <GIC_SPI 88 IRQ_TYPE_LEVEL_HIGH>;
+			status = "disabled";
+	        };
+
+	        pcie1: pcie@3080000000 {
+	                compatible = "lsi,axm5516-pcie";
+	                device_type = "pci";
+	                #size-cells = <2>;
+			#address-cells = <3>;
+	                #interrupt-cells = <1>;
+			reg = <0x30 0xb8000000 0x0 0x01000000>,
+			      <0x20 0x20130000 0x0 0x00008000>;
+	                /* < <3-cell PCI addr> <2-cell CPU addr> <2-cell size> > */
+	                ranges = <0x02000000 0 0x80000000 0x30 0x80000000 0 0x01000000>, /* IO */
+				 <0x02000000 0 0x88000000 0x30 0x88000000 0 0x30000000>; /* MEM */
+			bus-range = <0x00 0xff>;
+	                interrupts = <GIC_SPI 70 IRQ_TYPE_LEVEL_HIGH>;
+			status = "disabled";
+	        };
+
 		amba {
 			compatible = "arm,amba-bus";
 			#address-cells = <2>;
