@@ -59,6 +59,18 @@
 			#clock-cells = <1>;
 			reg = <0x20 0x10020000 0 0x20000>;
 		};
+
+		cpu {
+			frequency = <1400000000>;
+		};
+
+		peripheral {
+			frequency = <200000000>;
+		};
+
+		emmc {
+			frequency = <200000000>;
+		};
 	};
 
 	gic: interrupt-controller@2001001000 {
