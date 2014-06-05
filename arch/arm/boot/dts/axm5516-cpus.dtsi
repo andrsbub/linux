@@ -13,6 +13,7 @@
 	cpus {
 		#address-cells = <1>;
 		#size-cells = <0>;
+		enable-method = "lsi,syscon-release";
 
 		cpu-map {
 			cluster0 {
