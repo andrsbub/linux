@@ -62,14 +62,16 @@
 	};
 
 	gic: interrupt-controller@2001001000 {
-		compatible = "arm,cortex-a15-gic";
+		compatible = "lsi,axxia-gic";
 		#interrupt-cells = <3>;
 		#address-cells = <0>;
 		interrupt-controller;
 		reg = <0x20 0x01001000 0 0x1000>,
 		      <0x20 0x01002000 0 0x1000>,
 		      <0x20 0x01004000 0 0x2000>,
-		      <0x20 0x01006000 0 0x2000>;
+		      <0x20 0x01006000 0 0x2000>,
+		      <0x20 0x10030000 0 0x1000>,
+		      <0x20 0x10040000 0 0x20000>;
 		interrupts = <GIC_PPI 9 (GIC_CPU_MASK_SIMPLE(4) |
 				IRQ_TYPE_LEVEL_HIGH)>;
 	};
