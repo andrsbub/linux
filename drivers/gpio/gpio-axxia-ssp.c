@@ -1,0 +1,128 @@
+/*
+ * GPIO interface for SSP chip select outputs.
+ *
+ * Copyright (C) 2013 LSI Corporation
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 2 of the License, or
+ * (at your option) any later version.
+ */
+
+#include <linux/module.h>
+#include <linux/bitops.h>
+#include <linux/init.h>
+#include <linux/gpio.h>
+#include <linux/platform_device.h>
+#include <linux/io.h>
+#include <linux/of.h>
+
+struct gpio_dev {
+	void __iomem    *reg;
+	struct gpio_chip gpio_chip;
+};
+
+static int ssp_gpio_direction_out(struct gpio_chip *chip,
+				  unsigned offset, int value)
+{
+	/* Always outputs */
+	return 0;
+}
+
+static int ssp_gpio_direction_in(struct gpio_chip *chip, unsigned offset)
+{
+	return -ENXIO;
+}
+
+static int ssp_gpio_get(struct gpio_chip *chip, unsigned offset)
+{
+	struct gpio_dev *priv = dev_get_drvdata(chip->dev);
+	u32 tmp;
+
+	tmp = readl(priv->reg);
+	return !!(tmp & BIT(offset));
+}
+
+static void ssp_gpio_set(struct gpio_chip *chip, unsigned offset, int value)
+{
+	struct gpio_dev *priv = dev_get_drvdata(chip->dev);
+	u32 tmp;
+
+	tmp = readl(priv->reg);
+	if (value)
+		tmp |= BIT(offset);
+	else
+		tmp &= ~BIT(offset);
+	writel(tmp, priv->reg);
+}
+
+static int ssp_gpio_probe(struct platform_device *pdev)
+{
+	struct gpio_dev *priv;
+	struct resource *io;
+	struct gpio_chip *chip;
+	int ret;
+
+	priv = devm_kzalloc(&pdev->dev, sizeof(*priv), GFP_KERNEL);
+	if (!priv)
+		return -ENOMEM;
+
+	io = platform_get_resource(pdev, IORESOURCE_MEM, 0);
+	priv->reg = devm_ioremap(&pdev->dev, io->start, resource_size(io));
+	if (!priv->reg)
+		return -ENXIO;
+
+	platform_set_drvdata(pdev, priv);
+
+	chip = &priv->gpio_chip;
+	chip->dev = &pdev->dev;
+#ifdef CONFIG_OF_GPIO
+	chip->of_node = pdev->dev.of_node;
+#endif
+	chip->direction_input = ssp_gpio_direction_in;
+	chip->direction_output = ssp_gpio_direction_out;
+	chip->get = ssp_gpio_get;
+	chip->set = ssp_gpio_set;
+	chip->label = "ssp-gpio";
+	chip->owner = THIS_MODULE;
+	chip->base = -1;
+	chip->ngpio = 5;
+
+	/* Set all 5 chip-selects high (de-asserted) by default */
+	writel(0x1f, priv->reg);
+
+	ret = gpiochip_add(chip);
+	if (ret < 0)
+		dev_err(&pdev->dev, "failed to register chip, %d\n", ret);
+
+	return ret;
+}
+
+static int ssp_gpio_remove(struct platform_device *pdev)
+{
+	struct gpio_dev *priv = dev_get_drvdata(&pdev->dev);
+
+	return gpiochip_remove(&priv->gpio_chip);
+}
+
+static const struct of_device_id ssp_gpio_id_table[] = {
+	{ .compatible = "lsi,ssp-gpio" },
+	{}
+};
+MODULE_DEVICE_TABLE(platform, ssp_gpio_id_table);
+
+static struct platform_driver ssp_gpio_driver = {
+	.driver = {
+		.name = "ssp-gpio",
+		.owner = THIS_MODULE,
+		.of_match_table = ssp_gpio_id_table
+	},
+	.probe = ssp_gpio_probe,
+	.remove = ssp_gpio_remove,
+};
+
+module_platform_driver(ssp_gpio_driver);
+
+MODULE_AUTHOR("LSI Corporation");
+MODULE_DESCRIPTION("GPIO interface for SSP chip selects");
+MODULE_LICENSE("GPL");
