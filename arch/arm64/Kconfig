@@ -134,6 +134,11 @@ source "kernel/Kconfig.freezer"
 
 menu "Platform selection"
 
+config ARCH_AXXIA
+	bool "Axxia SoC family"
+	help
+	  This enables support for LSI Axxia 56xx SOC Family
+
 config ARCH_VEXPRESS
 	bool "ARMv8 software model (Versatile Express)"
 	select ARCH_REQUIRE_GPIOLIB
